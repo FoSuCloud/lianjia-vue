@@ -18,3 +18,4 @@
 * 下载`npm i -S compression-webpack-plugin`进行压缩配置
 * 对应的配置文件看vue.config.js文件即可
 
+
