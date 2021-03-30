@@ -1,6 +1,8 @@
 <template>
   <div class="home">
+    <p>各城市平均月租金</p>
     <div id="home-bar"></div>
+    <p>各城市租房类型分布</p>
     <div id="home-type"></div>
   </div>
 </template>
@@ -20,9 +22,10 @@ export default {
       this.barData = response.data;
       this.initBar();
     });
-  },
-  mounted() {
-    this.initType();
+    this.$axios.get(RequestConstant.HOUSE_TYPE).then((response) => {
+      this.typeData = response.data;
+      this.initType();
+    });
   },
   methods: {
     initBar() {
@@ -42,7 +45,7 @@ export default {
           axisLabel: {
             interval: 0,
           },
-          data: [2000,4000,6000,8000,10000]
+          data: [2000, 4000, 6000, 8000, 10000],
         },
         series: [
           {
@@ -66,7 +69,7 @@ export default {
           },
         },
         legend: {
-          data: ["Forest", "Steppe", "Desert", "Wetland"],
+          data: this.typeData.legendList,
         },
         toolbox: {
           show: true,
@@ -85,7 +88,7 @@ export default {
           {
             type: "category",
             axisTick: { show: false },
-            data: ["2012", "2013", "2014", "2015"],
+            data: this.typeData.cityList,
           },
         ],
         yAxis: [
@@ -93,25 +96,17 @@ export default {
             type: "value",
           },
         ],
-        series: [
-          {
-            name: "Forest",
+        series: this.typeData.values.map((item) => {
+          return {
+            name: item.name,
             type: "bar",
             barGap: 0,
             emphasis: {
               focus: "series",
             },
-            data: [320, 332, 301, 334],
-          },
-          {
-            name: "Steppe",
-            type: "bar",
-            emphasis: {
-              focus: "series",
-            },
-            data: [220, 182, 191, 234],
-          },
-        ],
+            data: item.values,
+          };
+        }),
       });
     },
   },
@@ -122,11 +117,10 @@ export default {
 .home {
   height: 100%;
   width: 100%;
-  #home-bar,
-  #home-type {
+  #home-bar,#home-type {
     display: inline-block;
     width: 450px;
-    height: 400px;
+    height: 350px;
     padding: 0;
     margin: 0;
   }

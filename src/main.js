@@ -17,8 +17,12 @@ import {
     TitleComponent,
     TooltipComponent,
     GridComponent,
-    LegendComponent
+    LegendComponent,
+    VisualMapComponent
 } from 'echarts/components';
+import {
+    MapChart
+} from 'echarts/charts';
 // 引入 Canvas 渲染器，注意引入 CanvasRenderer 或者 SVGRenderer 是必须的一步
 import {
     CanvasRenderer
@@ -26,7 +30,7 @@ import {
 
 // 注册必须的组件
 echarts.use(
-    [TitleComponent, TooltipComponent, GridComponent, LegendComponent, BarChart, CanvasRenderer]
+    [TitleComponent, TooltipComponent, VisualMapComponent, GridComponent, LegendComponent, BarChart, MapChart, CanvasRenderer]
 );
 //vue全局注入
 Vue.prototype.$echarts = echarts
