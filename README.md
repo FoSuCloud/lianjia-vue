@@ -3,6 +3,12 @@
 2. git commit -m "修改"
 3. git push
 
+## 更新代码
+* git pull
+
+## 启动项目
+* npm run serve
+
 ## 创建项目
 1. 全局安装npm,node,vue-cli
 `npm i -g npm node vue-cli`
@@ -10,7 +16,7 @@
 * 使用manual模式自己配置
 3. 启动项目
 * 本项目使用yarn包管理器，启动使用yarn serve 
-* 如果使用npm 包管理器，那么启动代码为npm start
+* 如果使用npm 包管理器，那么启动代码为npm serve
 
 ## 配置vue.config.js
 * 在vue.cli官网[https://cli.vuejs.org/zh/config/#vue-config-js]

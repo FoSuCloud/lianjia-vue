@@ -63,6 +63,9 @@ export default {
   }
   .el-menu {
     height: calc(100% - 100px);
+    .el-menu-item{
+      min-width:0;
+    }
   }
 }
 </style>
