@@ -3,7 +3,6 @@
     <img
       :src="require('../../../public/logo.png')"
       class="lianjia-sidebar__logo"
-      @click="toData"
     />
     <el-menu
       v-if="routes.length"
@@ -32,8 +31,6 @@
 </template>
 
 <script>
-import { RouterConstant } from "@/router/RouterConstant.js";
-
 export default {
   name: "Sidebar",
   data() {
@@ -43,11 +40,6 @@ export default {
   },
   created() {
     this.routes = this.$router.options.routes.filter((item) => item.permission);
-  },
-  methods:{
-    toData(){
-      this.$router.push(RouterConstant.HOME_DATA)
-    }
   }
 };
 </script>
