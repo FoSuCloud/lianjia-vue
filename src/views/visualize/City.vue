@@ -127,7 +127,7 @@ export default {
           realtime: false,
           calculable: true,
           inRange: {
-            color: ["lightskyblue", "yellow", "orangered"]
+            color: ['#d1d4da', '#bacae8', '#96b5ef', '#6797ef', '#3375e4', '#035cf5']
           }
         },
         series: [
@@ -173,7 +173,7 @@ export default {
           realtime: false,
           calculable: true,
           inRange: {
-            color: ["lightskyblue", "yellow", "orangered"]
+            color:['#d1d4da', '#bacae8', '#96b5ef', '#6797ef', '#3375e4', '#035cf5']
           }
         },
         series: [
@@ -219,6 +219,9 @@ export default {
             data: this.numPriceData.map(item => item.name),
             axisPointer: {
               type: "shadow"
+            },
+            axisLabel: {
+              interval: 0 //代表显示所有x轴标签显示
             }
           }
         ],
@@ -289,6 +292,9 @@ export default {
             data: this.stylePriceData.map(item => item.layout),
             axisPointer: {
               type: "shadow"
+            },
+            axisLabel: {
+              interval: 0 //代表显示所有x轴标签显示
             }
           }
         ],
@@ -308,7 +314,7 @@ export default {
             name: "均价",
             min: 0,
             max: 300,
-            interval: 100,
+            interval: 50,
             axisLabel: {
               formatter: "{value} 元/m2"
             }
