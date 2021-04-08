@@ -10,7 +10,8 @@ import axios from '@/api/axios.js'
 import * as echarts from 'echarts/core';
 // 引入柱状图图表，图表后缀都为 Chart
 import {
-    BarChart
+    BarChart,
+    LineChart
 } from 'echarts/charts';
 // 引入提示框，标题，直角坐标系组件，组件后缀都为 Component
 import {
@@ -27,10 +28,11 @@ import {
 import {
     CanvasRenderer
 } from 'echarts/renderers';
+import 'echarts-wordcloud';
 
 // 注册必须的组件
 echarts.use(
-    [TitleComponent, TooltipComponent, VisualMapComponent, GridComponent, LegendComponent, BarChart, MapChart, CanvasRenderer]
+    [TitleComponent,LineChart, TooltipComponent, VisualMapComponent, GridComponent, LegendComponent, BarChart, MapChart, CanvasRenderer]
 );
 //vue全局注入
 Vue.prototype.$echarts = echarts
