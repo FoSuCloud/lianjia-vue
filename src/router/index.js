@@ -84,13 +84,23 @@ const withoutAuthRoutes = [
     path: "/about",
     name: "About",
     component: () => import("@/views/About.vue")
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("@/views/login/Login.vue")
+  },
+  {
+    path: "/registry",
+    name: "registry",
+    component: () => import("@/views/registry/Registry.vue")
   }
 ];
 
 const staticRoutes = [
   {
     path: "/",
-    redirect: "/home"
+    redirect: "/login"
   }
 ];
 
