@@ -14,15 +14,15 @@ export default {
   data() {
     return {
       barData: {},
-      typeData: {},
+      typeData: {}
     };
   },
   created() {
-    this.$axios.get(RequestConstant.RENT).then((response) => {
+    this.$axios.get(RequestConstant.RENT).then(response => {
       this.barData = response.data;
       this.initBar();
     });
-    this.$axios.get(RequestConstant.HOUSE_TYPE).then((response) => {
+    this.$axios.get(RequestConstant.HOUSE_TYPE).then(response => {
       this.typeData = response.data;
       this.initType();
     });
@@ -34,18 +34,18 @@ export default {
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "shadow",
-          },
+            type: "shadow"
+          }
         },
         xAxis: {
-          data: this.barData.nameList,
+          data: this.barData.nameList
         },
         yAxis: {
           type: "value",
           axisLabel: {
-            interval: 0,
+            interval: 0
           },
-          data: [2000, 4000, 6000, 8000, 10000],
+          data: [2000, 4000, 6000, 8000, 10000]
         },
         series: [
           {
@@ -53,10 +53,10 @@ export default {
             type: "bar",
             showBackground: true,
             backgroundStyle: {
-              color: "rgba(180, 180, 180, 0.2)",
-            },
-          },
-        ],
+              color: "rgba(180, 180, 180, 0.2)"
+            }
+          }
+        ]
       });
     },
     initType() {
@@ -65,11 +65,11 @@ export default {
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "shadow",
-          },
+            type: "shadow"
+          }
         },
         legend: {
-          data: this.typeData.legendList,
+          data: this.typeData.legendList
         },
         toolbox: {
           show: true,
@@ -81,35 +81,35 @@ export default {
             dataView: { show: true, readOnly: false },
             magicType: { show: true, type: ["line", "bar", "stack", "tiled"] },
             restore: { show: true },
-            saveAsImage: { show: true },
-          },
+            saveAsImage: { show: true }
+          }
         },
         xAxis: [
           {
             type: "category",
             axisTick: { show: false },
-            data: this.typeData.cityList,
-          },
+            data: this.typeData.cityList
+          }
         ],
         yAxis: [
           {
-            type: "value",
-          },
+            type: "value"
+          }
         ],
-        series: this.typeData.values.map((item) => {
+        series: this.typeData.values.map(item => {
           return {
             name: item.name,
             type: "bar",
             barGap: 0,
             emphasis: {
-              focus: "series",
+              focus: "series"
             },
-            data: item.values,
+            data: item.values
           };
-        }),
+        })
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -117,7 +117,8 @@ export default {
 .home {
   height: 100%;
   width: 100%;
-  #home-bar,#home-type {
+  #home-bar,
+  #home-type {
     display: inline-block;
     width: 450px;
     height: 350px;

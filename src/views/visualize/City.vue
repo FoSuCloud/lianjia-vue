@@ -127,7 +127,14 @@ export default {
           realtime: false,
           calculable: true,
           inRange: {
-            color: ['#d1d4da', '#bacae8', '#96b5ef', '#6797ef', '#3375e4', '#035cf5']
+            color: [
+              "#d1d4da",
+              "#bacae8",
+              "#96b5ef",
+              "#6797ef",
+              "#3375e4",
+              "#035cf5"
+            ]
           }
         },
         series: [
@@ -173,7 +180,14 @@ export default {
           realtime: false,
           calculable: true,
           inRange: {
-            color:['#d1d4da', '#bacae8', '#96b5ef', '#6797ef', '#3375e4', '#035cf5']
+            color: [
+              "#d1d4da",
+              "#bacae8",
+              "#96b5ef",
+              "#6797ef",
+              "#3375e4",
+              "#035cf5"
+            ]
           }
         },
         series: [

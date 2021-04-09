@@ -1,7 +1,7 @@
 <template>
   <div class="list-popover-container">
     <el-popover placement="bottom" trigger="click" popper-class="list-popover">
-      <div >
+      <div>
         <div
           v-for="item in list"
           :key="item.key"
@@ -21,14 +21,14 @@ export default {
   props: {
     list: {
       type: Array,
-      default: [],
-    },
+      default: () => []
+    }
   },
   methods: {
     clickPopover(key) {
       this.$emit("clickPopover", key);
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -35,11 +35,11 @@ export default {
   name: "Sidebar",
   data() {
     return {
-      routes: [],
+      routes: []
     };
   },
   created() {
-    this.routes = this.$router.options.routes.filter((item) => item.permission);
+    this.routes = this.$router.options.routes.filter(item => item.permission);
   }
 };
 </script>
@@ -55,8 +55,8 @@ export default {
   }
   .el-menu {
     height: calc(100% - 100px);
-    .el-menu-item{
-      min-width:0;
+    .el-menu-item {
+      min-width: 0;
     }
   }
 }

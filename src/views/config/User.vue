@@ -1,10 +1,10 @@
 <template>
-  <div>Registry</div>
+  <div>User</div>
 </template>
 
 <script>
 export default {
-name: "Registry"
+name: "User"
 }
 </script>
 

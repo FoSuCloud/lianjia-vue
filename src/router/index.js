@@ -76,24 +76,35 @@ const dynamicRoutes = [
         parentPath: RouterConstant.BRAIN
       }
     ]
+  },
+  {
+    path: RouterConstant.CONFIG,
+    name: "设置",
+    component: MainLayout,
+    permission: true,
+    redirect: RouterConstant.USER,
+    children: [
+      {
+        path: RouterConstant.USER,
+        name: "用户",
+        component: () => import("@/views/config/User.vue"),
+        parentPath: RouterConstant.CONFIG
+      },
+      {
+        path: RouterConstant.ABOUT,
+        name: "关于",
+        component: () => import("@/views/config/About.vue"),
+        parentPath: RouterConstant.CONFIG
+      }
+    ]
   }
 ];
 
 const withoutAuthRoutes = [
   {
-    path: "/about",
-    name: "About",
-    component: () => import("@/views/About.vue")
-  },
-  {
     path: "/login",
     name: "Login",
     component: () => import("@/views/login/Login.vue")
-  },
-  {
-    path: "/registry",
-    name: "registry",
-    component: () => import("@/views/registry/Registry.vue")
   }
 ];
 
