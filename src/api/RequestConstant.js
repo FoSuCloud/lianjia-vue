@@ -7,6 +7,8 @@ export const RequestConstant = {
   CITY_NUM_PRICE: "/city/num-price",
   CITY_STYLE_PRICE: "/city/style-price",
   CITY_WORD_CLOUD: "/city/word-cloud",
+  USER_LIST: "/user/list",
   USER_LOGIN: "/user/login",
-  USER_ADD: "/user/add"
+  USER_ADD: "/user/add",
+  CALCULATE: '/calculate'
 };

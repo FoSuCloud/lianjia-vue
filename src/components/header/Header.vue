@@ -1,6 +1,13 @@
 <template>
   <div class="lianjia-header">
-    <i class="el-icon-user lianjia-header__icon" @click="toUserCenter"></i>
+    <el-popover
+      placement="top-start"
+      trigger="hover"
+      popper-class="lianjia-header__popover"
+    >
+      <div class="popover__logout" @click="toUserCenter">注销</div>
+      <i slot="reference" class="el-icon-user lianjia-header__icon"></i>
+    </el-popover>
   </div>
 </template>
 
@@ -10,7 +17,7 @@ export default {
   name: "Header",
   methods: {
     toUserCenter() {
-      this.$router.push(RouterConstant.USER);
+      this.$router.push(RouterConstant.LOGIN);
     }
   }
 };
@@ -27,6 +34,12 @@ export default {
   .lianjia-header__icon {
     width: 24px;
     font-size: 18px;
+  }
+}
+.lianjia-header__popover{
+  min-width: 40px !important;
+  .popover__logout{
+    cursor: pointer;
   }
 }
 </style>

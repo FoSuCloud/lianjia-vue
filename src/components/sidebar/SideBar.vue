@@ -21,9 +21,11 @@
           <span>{{ item.name }}</span>
         </template>
         <div v-for="(sub, sIndex) in item.children" :key="sIndex">
-          <el-menu-item v-if="!sub.hiddenSidebar" :index="sub.path">{{
-            sub.name
-          }}</el-menu-item>
+          <el-menu-item
+            v-if="!sub.hiddenSidebar && (!sub.Admin || viewUser)"
+            :index="sub.path"
+            >{{ sub.name }}</el-menu-item
+          >
         </div>
       </el-submenu>
     </el-menu>
@@ -35,11 +37,15 @@ export default {
   name: "Sidebar",
   data() {
     return {
-      routes: []
+      routes: [],
+      viewUser: false // 是否可以查看用户界面
     };
   },
   created() {
     this.routes = this.$router.options.routes.filter(item => item.permission);
+    if (this.$store.state.role === 2) {
+      this.viewUser = true;
+    }
   }
 };
 </script>
@@ -48,6 +54,7 @@ export default {
 .lianjia-sidebar {
   height: 100%;
   width: 160px;
+  border-right: 1px solid rgba(220, 220, 220, 0.5);
   .lianjia-sidebar__logo {
     width: 100px;
     height: 60px;
@@ -55,6 +62,7 @@ export default {
   }
   .el-menu {
     height: calc(100% - 100px);
+    border: none;
     .el-menu-item {
       min-width: 0;
     }

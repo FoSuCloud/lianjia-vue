@@ -76,10 +76,11 @@ export default {
           })
           .then(response => {
             if (response.code === 0) {
-              alert("登陆成功！");
+              this.$message.success('登陆成功')
+              this.$store.commit('handleRole', response.data.role)
               this.$router.push(RouterConstant.HOME);
             } else {
-              alert('用户不存在')
+              this.$message.error('用户不存在')
             }
           });
       } else {
@@ -97,12 +98,14 @@ export default {
             params: {
               username: this.form.username,
               email: this.form.useremail,
-              password: this.$md5(this.form.userpwd)
+              password: this.$md5(this.form.userpwd),
+              role: 1 // 1表示用户，2表示管理员
             }
           })
           .then(response => {
             if (response.code === 0) {
-              alert("注册成功！");
+              this.$message.success('注册成功')
+              this.$store.commit('handleRole', 1)
               this.$router.push(RouterConstant.HOME);
             } else {
               this.existed = true;

@@ -79,14 +79,15 @@ const dynamicRoutes = [
   },
   {
     path: RouterConstant.CONFIG,
-    name: "设置",
+    name: "管理",
     component: MainLayout,
     permission: true,
     redirect: RouterConstant.USER,
     children: [
       {
         path: RouterConstant.USER,
-        name: "用户",
+        name: "用户列表",
+        Admin: true,
         component: () => import("@/views/config/User.vue"),
         parentPath: RouterConstant.CONFIG
       },
