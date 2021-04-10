@@ -14,7 +14,9 @@ const RouterConstant = {
   VISUALIZE_SH: "/visualize/sh",
 
   BRAIN: "brain",
-  BRAIN_CALCULATE: "/brain/calculate"
+  BRAIN_CALCULATE: "/brain/calculate",
+
+  LOGIN: '/login'
 };
 
 export { RouterConstant };

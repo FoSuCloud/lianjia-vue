@@ -10,7 +10,7 @@
             <input type="password" placeholder="密码" v-model="form.userpwd" />
             <span class="errTips" v-if="emailError">* 密码填写错误 *</span>
           </div>
-          <button class="bbutton" @click="toRoute">登陆</button>
+          <button class="bbutton" @click="login">登陆</button>
         </div>
         <div class="big-contain" v-else>
           <div class="btitle">创建账户</div>
@@ -41,6 +41,7 @@
 
 <script>
 import { RouterConstant } from "@/router/RouterConstant";
+import { RequestConstant } from "@/api/RequestConstant";
 
 export default {
   name: "Login",
@@ -58,9 +59,6 @@ export default {
     };
   },
   methods: {
-    toRoute() {
-      this.$router.push(RouterConstant.HOME);
-    },
     changeType() {
       this.isLogin = !this.isLogin;
       this.form.username = "";
@@ -68,72 +66,51 @@ export default {
       this.form.userpwd = "";
     },
     login() {
-      const self = this;
-      if (self.form.useremail != "" && self.form.userpwd != "") {
-        this.$router.push(RouterConstant.HOME);
-        // todo 先注释掉
-        // self
-        //   .$axios({
-        //     method: "post",
-        //     url: "http://127.0.0.1:10520/api/user/login",
-        //     data: {
-        //       email: self.form.useremail,
-        //       password: self.form.userpwd
-        //     }
-        //   })
-        //   .then(res => {
-        //     switch (res.data) {
-        //       case 0:
-        //         alert("登陆成功！");
-        //         break;
-        //       case -1:
-        //         this.emailError = true;
-        //         break;
-        //       case 1:
-        //         this.passwordError = true;
-        //         break;
-        //     }
-        //   })
-        //   .catch(err => {
-        //     console.log(err);
-        //   });
+      if (this.form.useremail != "" && this.form.userpwd != "") {
+        this.$axios
+          .get(RequestConstant.USER_LOGIN, {
+            params: {
+              email: this.form.useremail,
+              password: this.$md5(this.form.userpwd)
+            }
+          })
+          .then(response => {
+            if (response.code === 0) {
+              this.$message.success('登陆成功')
+              this.$store.commit('handleRole', response.data.role)
+              this.$router.push(RouterConstant.HOME);
+            } else {
+              this.$message.error('用户不存在')
+            }
+          });
       } else {
         alert("填写不能为空！");
       }
     },
     register() {
-      const self = this;
       if (
-        self.form.username != "" &&
-        self.form.useremail != "" &&
-        self.form.userpwd != ""
+        this.form.username != "" &&
+        this.form.useremail != "" &&
+        this.form.userpwd != ""
       ) {
-        this.$router.push(RouterConstant.HOME);
-
-        // self
-        //   .$axios({
-        //     method: "post",
-        //     url: "http://127.0.0.1:10520/api/user/add",
-        //     data: {
-        //       username: self.form.username,
-        //       email: self.form.useremail,
-        //       password: self.form.userpwd
-        //     }
-        //   })
-        //   .then(res => {
-        //     switch (res.data) {
-        //       case 0:
-        //         alert("注册成功！");
-        //         this.login();
-        //         break;
-        //       case -1:
-        //         this.existed = true;
-        //         break;
-        //     }
-        //   })
-        //   .catch(err => {
-        //     console.log(err);
-        //   });
+        this.$axios
+          .get(RequestConstant.USER_ADD, {
+            params: {
+              username: this.form.username,
+              email: this.form.useremail,
+              password: this.$md5(this.form.userpwd),
+              role: 1 // 1表示用户，2表示管理员
+            }
+          })
+          .then(response => {
+            if (response.code === 0) {
+              this.$message.success('注册成功')
+              this.$store.commit('handleRole', 1)
+              this.$router.push(RouterConstant.HOME);
+            } else {
+              this.existed = true;
+            }
+          });
       } else {
         alert("填写不能为空！");
       }
