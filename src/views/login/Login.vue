@@ -58,6 +58,9 @@ export default {
       }
     };
   },
+  created() {
+    this.isLogin = this.$store.state.showLogin;
+  },
   methods: {
     changeType() {
       this.isLogin = !this.isLogin;

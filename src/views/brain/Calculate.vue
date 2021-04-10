@@ -155,6 +155,22 @@ export default {
      * */
     dropdownClick(key, item) {
       this.params[key] = item.key;
+      switch (key) {
+        case "city":
+          this.boxList[0].dropdown.title = item.label;
+          break;
+        case "area":
+          this.boxList[1].dropdown.title = item.label;
+          break;
+        case "zone":
+          this.boxList[2].dropdown.title = item.label;
+          break;
+        case "model":
+          this.boxList[3].dropdown.title = item.label;
+          break;
+        default:
+          break;
+      }
       if (key === "city") {
         this.$axios
           .get(RequestConstant.CITY_ZONE, {
@@ -223,7 +239,11 @@ export default {
           font-size: 16px;
         }
         .el-button {
+          width: 117px !important;
           font-size: 16px !important;
+          i {
+            float: right;
+          }
         }
       }
     }

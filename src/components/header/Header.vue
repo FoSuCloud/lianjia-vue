@@ -18,6 +18,7 @@ export default {
   methods: {
     toUserCenter() {
       document.cookie = "token=;";
+      this.$store.commit("handleShowLogin", true);
       this.$router.push(RouterConstant.LOGIN);
     }
   }
