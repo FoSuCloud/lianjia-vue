@@ -222,7 +222,7 @@ mounted: {
         //   //重新获取用户列表数据
         //   this.getUserList()
         // })
-      },
+      }
 },
 
 }
