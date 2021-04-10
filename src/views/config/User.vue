@@ -33,6 +33,11 @@
     <el-table :data="userList" stripe border>
       <el-table-column prop="username" label="用户名"> </el-table-column>
       <el-table-column prop="email" label="邮箱"> </el-table-column>
+      <el-table-column prop="role" label="角色">
+        <template slot-scope="scope">
+          {{ scope.row.role === 2 ? "管理员" : "用户" }}
+        </template>
+      </el-table-column>
     </el-table>
 
     <!-- 分页区域 -->
@@ -66,7 +71,11 @@
           <el-input v-model="addForm.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input type="password" auto-complete="off" v-model="addForm.password"></el-input>
+          <el-input
+            type="password"
+            auto-complete="off"
+            v-model="addForm.password"
+          ></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="addForm.email"></el-input>

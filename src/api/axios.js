@@ -1,8 +1,11 @@
 import axios from "axios";
+import router from "@/router";
+import { RouterConstant } from "@/router/RouterConstant";
+import { MessageBox, Message } from "element-ui";
+import store from "@/store";
 
 // 创建 axios 实例
 let service = axios.create({
-  // headers: {'Content-Type': 'application/json'},
   timeout: 60000
 });
 
@@ -29,12 +32,25 @@ service.interceptors.request.use(
 // 添加响应拦截器
 service.interceptors.response.use(
   response => {
+    store.commit("handleStatus", 200);
     let { data } = response;
     return data;
   },
   error => {
     let info = {},
       { status, statusText, data } = error.response;
+    if (store.state.status !== 401 && status === 401) {
+      // 之后不显示弹窗
+      store.commit("handleStatus", 401);
+      MessageBox.confirm("请先登录～", "提示", {
+        confirmButtonText: "确定",
+        showCancelButton: false,
+        showClose: false,
+        type: "error"
+      }).then(() => {
+        router.push(RouterConstant.LOGIN);
+      });
+    }
 
     if (!error.response) {
       info = {

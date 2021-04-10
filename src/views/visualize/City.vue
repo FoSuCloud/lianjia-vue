@@ -45,6 +45,9 @@ export default {
       .then(response => {
         this.heatMapData = response.data;
         this.setHeatMap();
+      })
+      .catch(err => {
+        console.log(err);
       });
     this.$axios
       .get(RequestConstant.CITY_ZONE, { params: { city: this.path } })

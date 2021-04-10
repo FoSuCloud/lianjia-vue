@@ -17,6 +17,7 @@ export default {
   name: "Header",
   methods: {
     toUserCenter() {
+      document.cookie = "token=;";
       this.$router.push(RouterConstant.LOGIN);
     }
   }
@@ -36,9 +37,9 @@ export default {
     font-size: 18px;
   }
 }
-.lianjia-header__popover{
+.lianjia-header__popover {
   min-width: 40px !important;
-  .popover__logout{
+  .popover__logout {
     cursor: pointer;
   }
 }

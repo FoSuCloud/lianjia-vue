@@ -15,7 +15,10 @@
                 v-for="(item, dIndex) in box.dropdown.list"
                 :key="dIndex"
                 @click.native="dropdownClick(box.key, item)"
-                ><div class="el-dropdown__calculate">
+                ><div
+                  class="el-dropdown__calculate"
+                  :class="item.key === params[box.key] ? 'is-active' : ''"
+                >
                   {{ item.label }}
                 </div></el-dropdown-item
               >
@@ -256,9 +259,17 @@ export default {
   }
 }
 .el-dropdown-menu {
-  .el-dropdown__calculate {
-    width: 90px;
-    text-align: center;
+  padding: 0;
+  .el-dropdown-menu__item {
+    padding: 0;
+    .el-dropdown__calculate {
+      width: 120px;
+      text-align: center;
+      &.is-active {
+        background: #ecf5ff;
+        color: #66b1ff;
+      }
+    }
   }
 }
 </style>

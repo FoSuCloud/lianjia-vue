@@ -4,12 +4,11 @@
       <el-table-column
         prop="city"
         label="标签"
-        width="100"
         :filters="cityList"
         filter-placement="bottom-end"
       >
       </el-table-column>
-      <el-table-column prop="dist" label="区域" width="180"> </el-table-column>
+      <el-table-column prop="dist" label="区域"> </el-table-column>
       <el-table-column prop="bizcircle_name" label="商圈"> </el-table-column>
       <el-table-column prop="rent_price_listing" label="房租"></el-table-column>
       <el-table-column prop="layout" label="类型"></el-table-column>
