@@ -198,7 +198,6 @@ export default {
       this.queryInfo.page = newPage;
       this.getUserList();
     },
-
     //监听添加用户对话框的关闭事件
     addDialogClosed() {
       this.$refs.addFormRef.resetFields();
