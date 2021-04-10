@@ -9,5 +9,5 @@ name: "User"
 </script>
 
 <style scoped>
-
+@import "User.scss";
 </style>
