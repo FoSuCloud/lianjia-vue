@@ -32,7 +32,8 @@ export default {
   justify-content: flex-end;
   width: 100%;
   height: 40px;
-  background: #e4fbff;
+  background: white;
+  box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.10); ;
   .lianjia-header__icon {
     width: 24px;
     font-size: 18px;

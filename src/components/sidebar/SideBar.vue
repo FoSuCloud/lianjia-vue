@@ -1,9 +1,9 @@
 <template>
   <div class="lianjia-sidebar">
-    <img
-      :src="require('../../../public/logo.png')"
-      class="lianjia-sidebar__logo"
-    />
+    <div class="lianjia-sidebar__logo">
+      <i class="iconfont iconlogo"></i>
+      <p class="logo__title">数据可视化</p>
+    </div>
     <el-menu
       v-if="routes.length"
       :default-active="$route.parentPath || $route.path"
@@ -53,18 +53,47 @@ export default {
 <style lang="scss">
 .lianjia-sidebar {
   height: 100%;
-  width: 160px;
+  width: 180px;
   border-right: 1px solid rgba(220, 220, 220, 0.5);
+  color: white;
   .lianjia-sidebar__logo {
-    width: 100px;
     height: 60px;
-    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    background: #131E6B;
+    .iconfont{
+      font-size: 40px;
+    }
+    .logo__title{
+      margin-top: 10px;
+      font-size: 20px;
+    }
   }
   .el-menu {
     height: calc(100% - 100px);
+    background:#131E6B;
     border: none;
+    .el-submenu__title{
+      &:hover, &:focus{
+        background: #131E6B;
+      }
+      span{
+        color: white;
+      }
+    }
+    span{
+      font-size: 18px;
+    }
     .el-menu-item {
       min-width: 0;
+      padding-left: 49px !important;
+      font-size: 16px !important;
+      color: white;
+      opacity: 0.7;
+      &.is-active,&:hover, &:focus{
+        opacity: 1;
+        background: #0835cd;
+      }
     }
   }
 }

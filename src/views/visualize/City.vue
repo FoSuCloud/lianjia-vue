@@ -2,16 +2,26 @@
   <div class="city">
     <div class="city-header">{{ city }}租房数据可视化</div>
     <div class="city-content">
-      <p>房源分布</p>
-      <div id="house-zone"></div>
-      <p>每平方租金价格</p>
-      <div id="heat-map"></div>
-      <p>租房数量及均价</p>
-      <div id="num-price"></div>
-      <p>房子格局与价格关系</p>
-      <div id="style-price"></div>
-      <p>房屋标签词云图</p>
-      <div id="house-cloud"></div>
+      <div class="city-content__cell">
+        <p>{{ city + "各区域的房源分布热力图" }}</p>
+        <div id="house-zone"></div>
+      </div>
+      <div class="city-content__cell">
+        <p>{{ city + "各区域的每平米租金价格热力图" }}</p>
+        <div id="heat-map"></div>
+      </div>
+      <div class="city-content__cell">
+        <p>租房数量及均价</p>
+        <div id="num-price"></div>
+      </div>
+      <div class="city-content__cell">
+        <p>房子格局与价格关系</p>
+        <div id="style-price"></div>
+      </div>
+      <div class="city-content__cell">
+        <p>房屋标签词云图</p>
+        <div id="house-cloud"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -106,7 +116,7 @@ export default {
       this.$echarts.registerMap(this.path, this.geoJson);
       myChart.setOption({
         title: {
-          text: this.city + "各区域的每平米租金价格热力图"
+          show: false
         },
         tooltip: {
           trigger: "item",
@@ -129,6 +139,7 @@ export default {
           text: ["High", "Low"],
           realtime: false,
           calculable: true,
+          bottom:'100',
           inRange: {
             color: [
               "#d1d4da",
@@ -159,7 +170,7 @@ export default {
       this.$echarts.registerMap(this.path, this.geoJson);
       myChart.setOption({
         title: {
-          text: this.city + "各区域的房源分布热力图"
+          show: false
         },
         tooltip: {
           trigger: "item",
@@ -182,6 +193,7 @@ export default {
           text: ["High", "Low"],
           realtime: false,
           calculable: true,
+          bottom:'100',
           inRange: {
             color: [
               "#d1d4da",
@@ -245,22 +257,22 @@ export default {
         yAxis: [
           {
             type: "value",
-            name: "租房数量",
+            name: "租房数量(套)",
             min: 0,
             max: 250,
             interval: 50,
             axisLabel: {
-              formatter: "{value} 套"
+              formatter: "{value}"
             }
           },
           {
             type: "value",
-            name: "均价",
+            name: "均价(元/m2)",
             min: 0,
             max: 200,
-            interval: 100,
+            interval: 50,
             axisLabel: {
-              formatter: "{value} 元/m2"
+              formatter: "{value}"
             }
           }
         ],
@@ -318,22 +330,22 @@ export default {
         yAxis: [
           {
             type: "value",
-            name: "租房数量",
-            min: 0,
-            max: 250,
-            interval: 50,
-            axisLabel: {
-              formatter: "{value} 套"
-            }
-          },
-          {
-            type: "value",
-            name: "均价",
+            name: "租房数量(套)",
             min: 0,
             max: 300,
             interval: 50,
             axisLabel: {
-              formatter: "{value} 元/m2"
+              formatter: "{value}"
+            }
+          },
+          {
+            type: "value",
+            name: "均价(元/m2)",
+            min: 0,
+            max: 300,
+            interval: 50,
+            axisLabel: {
+              formatter: "{value}"
             }
           }
         ],
@@ -404,15 +416,44 @@ export default {
 
 <style lang="scss">
 .city {
+  background: rgba(220, 220, 220, 0.3);
+
+  .city-header {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
   .city-content {
-    #house-zone,
-    #heat-map,
-    #num-price,
-    #style-price,
-    #house-cloud {
-      display: inline-block;
-      width: 700px;
-      height: 800px;
+    .city-content__cell {
+      text-align: center;
+      margin-bottom: 30px;
+      background: white;
+      padding: 20px 10px;
+
+      p {
+        font-size: 18px;
+      }
+
+      #house-zone,
+      #heat-map{
+        display: inline-block;
+        width: 700px;
+        height: 800px;
+      }
+      #num-price{
+        display: inline-block;
+        height: 400px;
+        width: 820px;
+      }
+      #style-price{
+        display: inline-block;
+        height: 400px;
+        width: 600px;
+      }
+      #house-cloud {
+        display: inline-block;
+        height: 400px;
+        width: 400px;
+      }
     }
   }
 }

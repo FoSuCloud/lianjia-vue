@@ -1,9 +1,13 @@
 <template>
   <div class="home">
-    <p>各城市平均月租金</p>
-    <div id="home-bar"></div>
-    <p>各城市租房类型分布</p>
-    <div id="home-type"></div>
+    <div class="home-map">
+      <p>各城市平均每平方米月租金(元/m2)</p>
+      <div id="home-bar"></div>
+    </div>
+    <div class="home-map">
+      <p>各城市租房类型分布</p>
+      <div id="home-type"></div>
+    </div>
   </div>
 </template>
 
@@ -38,20 +42,17 @@ export default {
           }
         },
         xAxis: {
+          type: "category",
+          axisTick: { show: false },
           data: this.barData.nameList
         },
         yAxis: {
-          type: "value",
-          axisLabel: {
-            interval: 0
-          },
-          data: [2000, 4000, 6000, 8000, 10000]
+          type: "value"
         },
         series: [
           {
             data: this.barData.values,
             type: "bar",
-            showBackground: true,
             backgroundStyle: {
               color: "rgba(180, 180, 180, 0.2)"
             }
@@ -71,36 +72,18 @@ export default {
         legend: {
           data: this.typeData.legendList
         },
-        toolbox: {
-          show: true,
-          orient: "vertical",
-          left: "right",
-          top: "center",
-          feature: {
-            mark: { show: true },
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ["line", "bar", "stack", "tiled"] },
-            restore: { show: true },
-            saveAsImage: { show: true }
-          }
+        xAxis: {
+          type: "category",
+          axisTick: { show: false },
+          data: this.typeData.cityList
         },
-        xAxis: [
-          {
-            type: "category",
-            axisTick: { show: false },
-            data: this.typeData.cityList
-          }
-        ],
-        yAxis: [
-          {
-            type: "value"
-          }
-        ],
+        yAxis: {
+          type: "value"
+        },
         series: this.typeData.values.map(item => {
           return {
             name: item.name,
             type: "bar",
-            barGap: 0,
             emphasis: {
               focus: "series"
             },
@@ -117,13 +100,32 @@ export default {
 .home {
   height: 100%;
   width: 100%;
-  #home-bar,
-  #home-type {
+  text-align: center;
+  background: rgba(220, 220, 220, 0.3);
+  .home-map {
     display: inline-block;
-    width: 450px;
-    height: 350px;
-    padding: 0;
-    margin: 0;
+    width: 460px;
+    background: white;
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+    #home-bar,
+    #home-type {
+      display: inline-block;
+      width: 100%;
+      height: 300px;
+      padding: 0;
+      margin: 0;
+    }
+
+    p {
+      display: inline-block;
+      text-align: center;
+      height: 24px;
+      line-height: 24px;
+      padding: 10px;
+      margin: 10px 0;
+    }
   }
 }
 </style>

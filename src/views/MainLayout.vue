@@ -33,6 +33,8 @@ export default {
     flex: 1;
     .main-content__router {
       height: calc(100% - 40px);
+      padding: 15px;
+      box-sizing: border-box;
       overflow: auto;
     }
   }
