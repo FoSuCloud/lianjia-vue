@@ -3,6 +3,7 @@ import router from "@/router";
 import { RouterConstant } from "@/router/RouterConstant";
 import { MessageBox, Message } from "element-ui";
 import store from "@/store";
+import da from "element-ui/src/locale/lang/da";
 
 // 创建 axios 实例
 let service = axios.create({
@@ -34,6 +35,9 @@ service.interceptors.response.use(
   response => {
     store.commit("handleStatus", 200);
     let { data } = response;
+    if (data.data && data.data.token) {
+      document.cookie = "token=" + data.data.token;
+    }
     return data;
   },
   error => {

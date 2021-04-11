@@ -45,7 +45,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="queryInfo.page"
-      :page-sizes="[20, 100, 200]"
+      :page-sizes="[10, 20, 50, 100]"
       :page-size="queryInfo.size"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
@@ -118,7 +118,7 @@ export default {
         //当前的页数
         page: 1,
         //当前每页显示多少条数据
-        size: 20
+        size: 10
       },
       userList: [],
       total: 0,
@@ -251,6 +251,10 @@ export default {
     font-size: 20px;
     margin: 15px 0;
     height: calc(100% - 120px);
+    .el-table__body-wrapper{
+      height: calc(100% - 65px);
+      overflow: auto;
+    }
   }
   .el-pagination {
     text-align: center;

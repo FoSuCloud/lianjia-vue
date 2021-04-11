@@ -1,10 +1,9 @@
-<template class="siderbar">
+<template>
   <div class="lianjia-sidebar">
-    <img
-      :src="require('../../../public/logo.png')"
-      class="lianjia-sidebar__logo"
-    /> 
-    <!-- 菜单 -->
+    <div class="lianjia-sidebar__logo">
+      <i class="iconfont iconlogo"></i>
+      <p class="logo__title">数据可视化</p>
+    </div>
     <el-menu
       v-if="routes.length"
       :default-active="$route.parentPath || $route.path"
@@ -12,26 +11,21 @@
       router
       unique-opened
     >
-    <!-- 子菜单 -->
       <el-submenu
         v-for="(item, index) in routes"
         :key="index"
         :index="item.path"
       >
-      <!-- 标题 -->
-        <template slot="title" class="title">
+        <template slot="title">
           <i class="el-icon-location"></i>
           <span>{{ item.name }}</span>
         </template>
-        <!--  -->
         <div v-for="(sub, sIndex) in item.children" :key="sIndex">
-          <!-- 子标题 -->
           <el-menu-item
             v-if="!sub.hiddenSidebar && (!sub.Admin || viewUser)"
             :index="sub.path"
+            >{{ sub.name }}</el-menu-item
           >
-          {{ sub.name }}
-          </el-menu-item>
         </div>
       </el-submenu>
     </el-menu>
@@ -57,34 +51,50 @@ export default {
 </script>
 
 <style lang="scss">
-  .lianjia-sidebar {
-  background-color: rgba(168, 213, 243, 0.5);
+.lianjia-sidebar {
   height: 100%;
-  width: 180px;
+  width: 200px;
   border-right: 1px solid rgba(220, 220, 220, 0.5);
+  color: white;
   .lianjia-sidebar__logo {
-    width: 100px;
     height: 60px;
-    margin: 20px auto;
-  }
-  .el-menu {  
-    background-color: rgba(168, 213, 243, 0.5);
-    height: calc(100% - 100px);
-    border: none;
-    span{
+    padding: 20px;
+    text-align: center;
+    background: #131E6B;
+    .iconfont{
+      font-size: 40px;
+    }
+    .logo__title{
+      margin-top: 10px;
       font-size: 20px;
-     
-     }
-      .el-menu-item {
-      min-width: 0;
-     
-      font-size: 16px;
-      }
+    }
   }
-
-  
-  
+  .el-menu {
+    height: calc(100% - 100px);
+    background:#131E6B;
+    border: none;
+    .el-submenu__title{
+      &:hover, &:focus{
+        background: #131E6B;
+      }
+      span{
+        color: white;
+      }
+    }
+    span{
+      font-size: 18px;
+    }
+    .el-menu-item {
+      min-width: 0;
+      padding-left: 49px !important;
+      font-size: 16px !important;
+      color: white;
+      opacity: 0.7;
+      &.is-active,&:hover, &:focus{
+        opacity: 1;
+        background: #0835cd;
+      }
+    }
+  }
 }
-
-
 </style>

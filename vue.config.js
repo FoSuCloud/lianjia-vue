@@ -25,7 +25,7 @@ module.exports = {
             filename: "index.html",
             // 当使用 title 选项时，
             // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
-            title: "数据分析系统",
+            title: "租房数据可视化",
             // 在这个页面中包含的块，默认情况下会包含
             // 提取出来的通用 chunk 和 vendor chunk。
             chunks: ["chunk-vendors", "chunk-common", "index"],

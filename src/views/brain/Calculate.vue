@@ -207,6 +207,11 @@ export default {
         area: null,
         model: null
       };
+      this.boxList[0].dropdown.title = "选择城市";
+      this.boxList[1].dropdown.title = "选择面积";
+      this.boxList[2].dropdown.title = "选择区域";
+      this.boxList[3].dropdown.title = "选择模型";
+      this.minPrice = ''
     }
   }
 };
@@ -267,7 +272,7 @@ export default {
       height: 100px;
       line-height: 100px;
       text-align: center;
-      font-size: 28px;
+      font-size: 40px;
       font-weight: 500;
     }
   }

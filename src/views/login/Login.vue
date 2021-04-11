@@ -81,7 +81,6 @@ export default {
             if (response.code === 0) {
               this.$message.success("登陆成功");
               this.$store.commit("handleRole", response.data.role);
-              document.cookie = "token=" + response.data.token;
               this.$router.push(RouterConstant.HOME);
             } else {
               this.$message.error("用户不存在");
@@ -110,7 +109,6 @@ export default {
             if (response.code === 0) {
               this.$message.success("注册成功");
               this.$store.commit("handleRole", 1);
-              document.cookie = "token=" + response.data.token;
               this.$router.push(RouterConstant.HOME);
             } else {
               this.existed = true;
