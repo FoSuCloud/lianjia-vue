@@ -85,6 +85,7 @@ export default {
 <style lang="scss">
 .data {
   .el-table {
+    position: static;
     height: calc(100% - 40px);
     .el-table__body-wrapper {
       height: calc(100% - 51px);
