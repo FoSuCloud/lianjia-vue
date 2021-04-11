@@ -84,6 +84,10 @@ export default {
 
 <style lang="scss">
 .data {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 160px);
   .el-table {
     position: static;
     height: calc(100% - 40px);
