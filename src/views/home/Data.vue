@@ -6,22 +6,27 @@
           <p class="data-p">城市:</p>
           <el-dropdown placement="bottom">
             <el-button type="primary" class="data-button">
-              请选择城市<i class="el-icon-arrow-down el-icon--right"></i>
+              {{ selectCity }}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu class="data-dropdown" slot="dropdown">
               <el-dropdown-item
-                @click.native="filterTag(item.value)"
+                @click.native="filterTag(item.value, item.text)"
                 v-for="item in cityList"
                 :key="item.value"
               >
-                {{ item.text }}
+                <div
+                  class="el-dropdown__data"
+                  :class="item.value === filterCity ? 'is-active' : ''"
+                >
+                  {{ item.text }}
+                </div>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <p class="data-p">区域:</p>
           <el-dropdown placement="bottom">
             <el-button type="primary" class="data-button">
-              请选择区域<i class="el-icon-arrow-down el-icon--right"></i>
+              {{ selectZone }}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu
               v-if="zone.length"
@@ -32,8 +37,14 @@
                 @click.native="handleZone(item.name)"
                 v-for="(item, index) in zone"
                 :key="index"
-                >{{ item.name }}</el-dropdown-item
               >
+                <div
+                  class="el-dropdown__data"
+                  :class="filterZone && item.name.indexOf(filterZone) > -1 ? 'is-active' : ''"
+                >
+                  {{ item.name }}
+                </div>
+              </el-dropdown-item>
             </el-dropdown-menu>
             <el-dropdown-menu v-else slot="dropdown">
               <el-dropdown-item>请先选择城市</el-dropdown-item>
@@ -92,10 +103,12 @@ export default {
       currentPage: 1,
       currentPageSize: 10,
       total: 0,
-      filterCity: "sz",
+      filterCity: "",
       zone: [],
       filterZone: "",
-      order: ""
+      order: "",
+      selectCity: "请选择城市",
+      selectZone: "请选择区域"
     };
   },
   created() {
@@ -107,6 +120,8 @@ export default {
       this.currentPageSize = 10;
       this.filterCity = "";
       this.filterZone = "";
+      this.selectZone = "请选择区域";
+      this.selectCity = "请选择城市";
     },
     sortChange(column) {
       this.order = column.order;
@@ -124,12 +139,14 @@ export default {
           .join("");
       }
       this.filterZone = val;
+      this.selectZone = val;
     },
     handleCurrentChange(val) {
       this.currentPage = val;
       this.getList();
     },
-    filterTag(value) {
+    filterTag(value, text) {
+      this.selectCity = text;
       this.filterCity = value;
       this.filterZone = "";
       this.getZone();
@@ -218,5 +235,16 @@ export default {
 .data-dropdown.el-dropdown-menu {
   width: 133px !important;
   text-align: center;
+  padding: 0;
+  .el-dropdown-menu__item {
+    padding: 0;
+    .el-dropdown__data {
+      text-align: center;
+      &.is-active {
+        background: #ecf5ff;
+        color: #66b1ff;
+      }
+    }
+  }
 }
 </style>

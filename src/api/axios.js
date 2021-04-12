@@ -1,18 +1,19 @@
 import axios from "axios";
 import router from "@/router";
 import { RouterConstant } from "@/router/RouterConstant";
-import { MessageBox, Message } from "element-ui";
+import { MessageBox } from "element-ui";
 import store from "@/store";
-import da from "element-ui/src/locale/lang/da";
+import { RequestConstant } from "@/api/RequestConstant";
 
 // 创建 axios 实例
 let service = axios.create({
   timeout: 60000
 });
-
 // 设置 post、put 默认 Content-Type
 service.defaults.headers.post["Content-Type"] = "application/json";
 service.defaults.headers.put["Content-Type"] = "application/json";
+
+var timer = 0;
 
 // 添加请求拦截器
 service.interceptors.request.use(
@@ -20,6 +21,18 @@ service.interceptors.request.use(
     if (config.method === "post" || config.method === "put") {
       // post、put 提交时，将对象转换为string, 为处理Java后台解析问题
       config.data = JSON.stringify(config.data);
+    }
+    if (!timer) {
+      timer = setTimeout(() => {
+        let value = document.cookie.split("token=");
+        if ((value && value.length > 1) || value.indexOf(";") > 0) {
+          axios.get(RequestConstant.REFRESH_PROFILE).then(res => {
+            document.cookie = "token=" + res.data.data.token;
+          });
+        }
+        clearTimeout(timer);
+        timer = 0;
+      }, 3599);
     }
     // 请求发送前进行处理
     return config;

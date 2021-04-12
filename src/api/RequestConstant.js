@@ -10,5 +10,6 @@ export const RequestConstant = {
   USER_LIST: "/user/list",
   USER_LOGIN: "/user/login",
   USER_ADD: "/user/add",
-  CALCULATE: '/calculate'
+  CALCULATE: '/calculate',
+  REFRESH_PROFILE: '/refresh'
 };
