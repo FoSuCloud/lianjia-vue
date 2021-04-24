@@ -8,6 +8,8 @@
         "lint": "eslint --fix --ext .js,.vue src"
     },
     "dependencies": {
+        "@tensorflow/tfjs": "^3.4.0",
+        "@tensorflow/tfjs-vis": "^1.5.0",
         "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
         "@vue/babel-preset-jsx": "^1.2.4",
         "axios": "^0.21.1",

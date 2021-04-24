@@ -1,39 +1,5 @@
 <template>
   <div class="calculate">
-    <div class="calculate-select">
-      <p class="calculate-select__title">信息选择</p>
-      <div class="calculate-select__box">
-        <div class="box__cell" v-for="(box, index) in boxList" :key="index">
-          <p class="box-cell__title">{{ box.title }}：</p>
-          <el-dropdown>
-            <el-button type="primary">
-              {{ box.dropdown.title
-              }}<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu v-if="box.dropdown.list.length" slot="dropdown">
-              <el-dropdown-item
-                v-for="(item, dIndex) in box.dropdown.list"
-                :key="dIndex"
-                @click.native="dropdownClick(box.key, item)"
-                ><div
-                  class="el-dropdown__calculate"
-                  :class="item.key === params[box.key] ? 'is-active' : ''"
-                >
-                  {{ item.label }}
-                </div></el-dropdown-item
-              >
-            </el-dropdown-menu>
-            <el-dropdown-menu slot="dropdown" v-else>
-              <el-dropdown-item
-                ><div class="el-dropdown__calculate">
-                  请先选择城市
-                </div></el-dropdown-item
-              >
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
-      </div>
-    </div>
     <div class="calculate-res">
       <p class="calculate-res__title">最低租金预测</p>
       <div class="calculate-res__content">
@@ -41,8 +7,9 @@
       </div>
     </div>
     <div class="calculate-buttons">
+      <el-input v-model="inputNum" class="calculate-input" />
       <el-button @click="clear">重置</el-button>
-      <el-button type="primary" @click="getPrice">提交</el-button>
+      <el-button type="primary" @click="getPrice(inputNum)">提交</el-button>
     </div>
   </div>
 </template>
@@ -54,6 +21,7 @@ export default {
   name: "Calculate",
   data() {
     return {
+      inputNum: 0,
       boxList: [
         {
           title: "城市",
@@ -145,8 +113,16 @@ export default {
         zone: "",
         area: null,
         model: null
-      }
+      },
+      inputMax: 0,
+      inputMin: 0,
+      labelMax: 0,
+      labelMin: 0,
+      model: "" // 模型
     };
+  },
+  mounted() {
+    this.run();
   },
   methods: {
     /**
@@ -188,14 +164,21 @@ export default {
           });
       }
     },
-    getPrice() {
-      this.$axios
-        .get(RequestConstant.CALCULATE, {
-          params: this.params
-        })
-        .then(res => {
-          this.minPrice = res.data.price;
+    getPrice(outNum) {
+      // (x-最小值)/(最大值-最小值)
+      this.inputMin.then(min => {
+        this.inputMax.then(max => {
+          let inputNum = (parseInt(outNum) - min) / (max - min);
+          let content = this.model.predict(this.$tf.tensor1d([inputNum]));
+          content.array().then(num => {
+            this.labelMax.then(labelMax => {
+              this.labelMin.then(labelMin => {
+                this.minPrice = num * (labelMax - labelMin) + labelMin
+              });
+            });
+          });
         });
+      });
     },
     /**
      * 清空筛选条件
@@ -211,7 +194,111 @@ export default {
       this.boxList[1].dropdown.title = "选择面积";
       this.boxList[2].dropdown.title = "选择区域";
       this.boxList[3].dropdown.title = "选择模型";
-      this.minPrice = ''
+      this.minPrice = "";
+    },
+    /*
+     * 创建模型
+     * */
+    createModel() {
+      const model = this.$tf.sequential();
+      model.add(
+        this.$tf.layers.dense({ inputShape: [1], units: 50, useBias: true })
+      );
+      model.add(this.$tf.layers.dense({ units: 10, activation: "sigmoid" }));
+      model.add(this.$tf.layers.dense({ units: 1, useBias: true }));
+      return model;
+    },
+    /*
+     * 获取模型数据
+     * */
+    async getModelData() {
+      let model = {
+        page: 1,
+        size: 50
+      };
+      let cleaned = [];
+      await this.$axios
+        .get(RequestConstant.LIST, {
+          params: model
+        })
+        .then(response => {
+          const carsData = response.data.list;
+          cleaned = carsData.map(item => ({
+            rent_area: parseInt(item.rent_area),
+            rent_price_listing: parseInt(item.rent_price_listing)
+          }));
+        });
+      return cleaned;
+    },
+    /**
+     * 模型数据转换为张量
+     * */
+    convertToTensor(data) {
+      return this.$tf.tidy(() => {
+        this.$tf.util.shuffle(data);
+        const inputs = data.map(item => {
+          return item.rent_area;
+        });
+        const labels = data.map(d => d.rent_price_listing);
+        const inputTensor = this.$tf.tensor2d(inputs, [inputs.length, 1]);
+        const labelTensor = this.$tf.tensor2d(labels, [labels.length, 1]);
+
+        //Step 3. Normalize the data to the range 0 - 1 using min-max scaling
+        this.inputMax = inputTensor.max();
+        this.inputMin = inputTensor.min();
+        this.labelMax = labelTensor.max();
+        this.labelMin = labelTensor.min();
+        // (x-最小值)/(最大值-最小值)
+        const normalizedInputs = inputTensor
+          .sub(this.inputMin)
+          .div(this.inputMax.sub(this.inputMin));
+        const normalizedLabels = labelTensor
+          .sub(this.labelMin)
+          .div(this.labelMax.sub(this.labelMin));
+        this.inputMin = this.inputMin.array();
+        this.inputMax = this.inputMax.array();
+        this.labelMax = this.labelMax.array();
+        this.labelMin = this.labelMin.array();
+
+        return {
+          inputs: normalizedInputs,
+          labels: normalizedLabels
+        };
+      });
+    },
+    /**
+     * 训练过程
+     * */
+    async trainModel(model, inputs, labels) {
+      model.compile({
+        optimizer: this.$tf.train.adam(),
+        loss: this.$tf.losses.meanSquaredError,
+        metrics: ["mse"]
+      });
+
+      const batchSize = 32;
+      const epochs = 50;
+
+      return await model.fit(inputs, labels, {
+        batchSize,
+        epochs,
+        shuffle: true,
+        callbacks: this.$tfvis.show.fitCallbacks(
+          { name: "Training Performance" },
+          ["loss", "mse"],
+          { height: 200, callbacks: ["onEpochEnd"] }
+        )
+      });
+    },
+    /**
+     * 训练模型
+     * */
+    async run() {
+      const data = await this.getModelData();
+      this.model = this.createModel();
+      const tensorData = this.convertToTensor(data);
+      const { inputs, labels } = tensorData;
+      await this.trainModel(this.model, inputs, labels);
     }
   }
 };
@@ -221,39 +308,6 @@ export default {
 .calculate {
   background: rgba(220, 220, 220, 0.3);
   padding: 20px;
-  .calculate-select {
-    margin-bottom: 20px;
-    padding: 20px;
-    background: white;
-    .calculate-select__title {
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 40px;
-      height: 40px;
-    }
-    .calculate-select__box {
-      margin-top: 30px;
-      margin-left: 200px;
-      .box__cell {
-        display: inline-block;
-        width: 40%;
-        margin-bottom: 30px;
-        text-align: left;
-        .box-cell__title {
-          display: inline-block;
-          font-size: 16px;
-        }
-        .el-button {
-          width: 117px !important;
-          font-size: 16px !important;
-          i {
-            float: right;
-          }
-        }
-      }
-    }
-  }
-
   .calculate-res {
     padding: 20px;
     background: white;
@@ -276,7 +330,11 @@ export default {
       font-weight: 500;
     }
   }
-
+  .calculate-input{
+    width: 200px;
+    display: block;
+    margin: 20px auto;
+  }
   .calculate-buttons {
     padding: 20px;
     background: white;

@@ -24,6 +24,10 @@ import { MapChart } from "echarts/charts";
 // 引入 Canvas 渲染器，注意引入 CanvasRenderer 或者 SVGRenderer 是必须的一步
 import { CanvasRenderer } from "echarts/renderers";
 import "echarts-wordcloud";
+import * as tfvis from "@tensorflow/tfjs-vis";
+import * as tf from "@tensorflow/tfjs";
+Vue.prototype.$tfvis = tfvis;
+Vue.prototype.$tf = tf;
 
 // 注册必须的组件
 echarts.use([
@@ -41,6 +45,7 @@ echarts.use([
 Vue.prototype.$md5 = md5;
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$axios = axios();
+// Vue.use具有install方法
 Vue.use(ElementUI, { size: "small", zIndex: 3000 });
 Vue.config.productionTip = false;
 
