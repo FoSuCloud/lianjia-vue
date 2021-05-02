@@ -180,7 +180,7 @@ export default {
         model.order = this.order;
       }
       this.$axios
-        .get(RequestConstant.LIST, {
+        .get(RequestConstant.CITY_LIST, {
           params: model
         })
         .then(response => {

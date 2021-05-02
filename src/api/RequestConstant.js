@@ -1,7 +1,7 @@
 export const RequestConstant = {
-  LIST: "/list",
-  RENT: "/rent",
-  HOUSE_TYPE: "/house/type",
+  CITY_LIST: "/city/list",
+  CITY_RENT: "/city/rent",
+  CITY_HOUSE_TYPE: "/city/house/type",
   CITY_HEAT: "/city/heat",
   CITY_ZONE: "/city/zone",
   CITY_NUM_PRICE: "/city/num-price",
@@ -10,6 +10,6 @@ export const RequestConstant = {
   USER_LIST: "/user/list",
   USER_LOGIN: "/user/login",
   USER_ADD: "/user/add",
-  CALCULATE: '/calculate',
-  REFRESH_PROFILE: '/refresh'
+  CITY_CALCULATE: "/city/calculate",
+  REFRESH_PROFILE: "/refresh"
 };

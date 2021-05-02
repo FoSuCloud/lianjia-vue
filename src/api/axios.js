@@ -9,6 +9,7 @@ import { RequestConstant } from "@/api/RequestConstant";
 let service = axios.create({
   timeout: 60000
 });
+
 // 设置 post、put 默认 Content-Type
 service.defaults.headers.post["Content-Type"] = "application/json";
 service.defaults.headers.put["Content-Type"] = "application/json";
@@ -24,12 +25,7 @@ service.interceptors.request.use(
     }
     if (!timer) {
       timer = setTimeout(() => {
-        let value = document.cookie.split("token=");
-        if ((value && value.length > 1) || value.indexOf(";") > 0) {
-          axios.get(RequestConstant.REFRESH_PROFILE).then(res => {
-            document.cookie = "token=" + res.data.data.token;
-          });
-        }
+        freshToken();
         clearTimeout(timer);
         timer = 0;
       }, 3599);
@@ -42,6 +38,15 @@ service.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+function freshToken() {
+  let value = document.cookie.split("token=");
+  if ((value && value.length > 1) || value.indexOf(";") > 0) {
+    axios.get(RequestConstant.REFRESH_PROFILE).then(res => {
+      document.cookie = "token=" + res.data.data.token;
+    });
+  }
+}
 
 // 添加响应拦截器
 service.interceptors.response.use(
@@ -90,6 +95,4 @@ service.interceptors.response.use(
  * 创建统一封装过的 axios 实例
  * @return {AxiosInstance}
  */
-export default function() {
-  return service;
-}
+export default service

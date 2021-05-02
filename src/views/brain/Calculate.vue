@@ -125,45 +125,6 @@ export default {
     this.run();
   },
   methods: {
-    /**
-     * @param {string} key 表示选中的box
-     * @param {object} item 表示点击的box-item
-     * */
-    dropdownClick(key, item) {
-      this.params[key] = item.key;
-      switch (key) {
-        case "city":
-          this.boxList[0].dropdown.title = item.label;
-          break;
-        case "area":
-          this.boxList[1].dropdown.title = item.label;
-          break;
-        case "zone":
-          this.boxList[2].dropdown.title = item.label;
-          break;
-        case "model":
-          this.boxList[3].dropdown.title = item.label;
-          break;
-        default:
-          break;
-      }
-      if (key === "city") {
-        this.$axios
-          .get(RequestConstant.CITY_ZONE, {
-            params: {
-              city: item.key
-            }
-          })
-          .then(res => {
-            this.boxList[2].dropdown.list = res.data.map(item => {
-              return {
-                key: item.value,
-                label: item.name
-              };
-            });
-          });
-      }
-    },
     getPrice(outNum) {
       // (x-最小值)/(最大值-最小值)
       this.inputMin.then(min => {
@@ -218,7 +179,7 @@ export default {
       };
       let cleaned = [];
       await this.$axios
-        .get(RequestConstant.LIST, {
+        .get(RequestConstant.CITY_LIST, {
           params: model
         })
         .then(response => {

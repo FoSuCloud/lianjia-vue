@@ -9,23 +9,34 @@ let routes = [];
 
 const dynamicRoutes = [
   {
-    path: RouterConstant.HOME,
-    name: "首页",
+    path: RouterConstant.HOME_DATA,
+    name: "数据总概括",
     component: MainLayout,
     permission: true,
-    redirect: RouterConstant.HOME_DATA,
+    hiddenSub: true,
+    redirect: RouterConstant.HOME_DATA_TRUE,
     children: [
       {
-        path: RouterConstant.HOME_DATA,
+        path: RouterConstant.HOME_DATA_TRUE,
+        parentPath: RouterConstant.HOME_DATA,
         name: "数据总概括",
-        component: () => import("@/views/home/Data.vue"),
-        parentPath: RouterConstant.HOME
-      },
+        component: () => import("@/views/home/Data.vue")
+      }
+    ]
+  },
+  {
+    path: RouterConstant.HOME_LIST,
+    name: "数据可视化",
+    component: MainLayout,
+    permission: true,
+    hiddenSub: true,
+    redirect: RouterConstant.HOME_LIST_TRUE,
+    children: [
       {
-        path: RouterConstant.HOME_LIST,
+        path: RouterConstant.HOME_LIST_TRUE,
+        parentPath: RouterConstant.HOME_LIST,
         name: "数据可视化",
-        component: () => import("@/views/home/Home.vue"),
-        parentPath: RouterConstant.HOME
+        component: () => import("@/views/home/Home.vue")
       }
     ]
   },
@@ -64,9 +75,10 @@ const dynamicRoutes = [
   },
   {
     path: RouterConstant.BRAIN,
-    name: "智能化",
+    name: "租金预测",
     component: MainLayout,
     permission: true,
+    hiddenSub: true,
     redirect: RouterConstant.BRAIN_CALCULATE,
     children: [
       {
@@ -78,10 +90,11 @@ const dynamicRoutes = [
     ]
   },
   {
-    path: RouterConstant.CONFIG,
-    name: "设置",
+    path: RouterConstant.CONFIG_USER,
+    name: "用户",
     component: MainLayout,
     permission: true,
+    hiddenSub: true,
     redirect: RouterConstant.USER,
     children: [
       {
@@ -89,13 +102,23 @@ const dynamicRoutes = [
         name: "用户",
         Admin: true,
         component: () => import("@/views/config/User.vue"),
-        parentPath: RouterConstant.CONFIG
-      },
+        parentPath: RouterConstant.CONFIG_USER
+      }
+    ]
+  },
+  {
+    path: RouterConstant.CONFIG_ABOUT,
+    name: "关于",
+    component: MainLayout,
+    permission: true,
+    hiddenSub: true,
+    redirect: RouterConstant.ABOUT,
+    children: [
       {
         path: RouterConstant.ABOUT,
         name: "关于",
         component: () => import("@/views/config/About.vue"),
-        parentPath: RouterConstant.CONFIG
+        parentPath: RouterConstant.CONFIG_ABOUT
       }
     ]
   }

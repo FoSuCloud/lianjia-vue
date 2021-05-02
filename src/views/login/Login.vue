@@ -81,7 +81,7 @@ export default {
             if (response.code === 0) {
               this.$message.success("登陆成功");
               this.$store.commit("handleRole", response.data.role);
-              this.$router.push(RouterConstant.HOME);
+              this.$router.push(RouterConstant.HOME_DATA);
             } else {
               this.$message.error("用户不存在");
             }
@@ -109,11 +109,11 @@ export default {
             if (response.code === 0) {
               this.$message.success("注册成功");
               this.$store.commit("handleRole", 1);
-              this.$router.push(RouterConstant.HOME);
+              this.$router.push(RouterConstant.HOME_DATA);
             } else {
               this.existed = true;
             }
-          });
+          })
       } else {
         alert("填写不能为空！");
       }

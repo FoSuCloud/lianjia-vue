@@ -50,8 +50,9 @@ export default {
     this.setRoute();
   },
   mounted() {
+    // localhost:3000/city=abc
     this.$axios
-      .get(RequestConstant.CITY_HEAT, { params: { city: this.path } })
+      .get(RequestConstant.CITY_HEAT+'？city=guangzhou', { params: { city: this.path } })
       .then(response => {
         this.heatMapData = response.data;
         this.setHeatMap();

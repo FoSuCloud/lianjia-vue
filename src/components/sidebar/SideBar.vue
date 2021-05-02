@@ -6,28 +6,34 @@
     </div>
     <el-menu
       v-if="routes.length"
-      :default-active="$route.parentPath || $route.path"
       class="el-menu-vertical-demo"
       router
       unique-opened
     >
-      <el-submenu
-        v-for="(item, index) in routes"
-        :key="index"
-        :index="item.path"
-      >
-        <template slot="title">
+      <div v-for="(item, index) in routes" :key="index">
+        <el-submenu v-if="!item.hiddenSub" :index="item.path">
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span>{{ item.name }}</span>
+          </template>
+          <div v-for="sub in item.children" :key="sub.path">
+            <el-menu-item
+              v-if="!sub.hiddenSidebar && (!sub.Admin || viewUser)"
+              :index="sub.path"
+              >{{ sub.name }}</el-menu-item
+            >
+          </div>
+        </el-submenu>
+        <el-menu-item
+          class="root-menu-item"
+          v-else
+          :key="item.path"
+          :index="item.path"
+        >
           <i class="el-icon-location"></i>
-          <span>{{ item.name }}</span>
-        </template>
-        <div v-for="(sub, sIndex) in item.children" :key="sIndex">
-          <el-menu-item
-            v-if="!sub.hiddenSidebar && (!sub.Admin || viewUser)"
-            :index="sub.path"
-            >{{ sub.name }}</el-menu-item
-          >
-        </div>
-      </el-submenu>
+          <span slot="title">{{ item.name }}</span>
+        </el-menu-item>
+      </div>
     </el-menu>
   </div>
 </template>
@@ -60,28 +66,29 @@ export default {
     height: 60px;
     padding: 20px;
     text-align: center;
-    background: #131E6B;
-    .iconfont{
+    background: #131e6b;
+    .iconfont {
       font-size: 40px;
     }
-    .logo__title{
+    .logo__title {
       margin-top: 10px;
       font-size: 20px;
     }
   }
   .el-menu {
     height: calc(100% - 100px);
-    background:#131E6B;
+    background: #131e6b;
     border: none;
-    .el-submenu__title{
-      &:hover, &:focus{
-        background: #131E6B;
+    .el-submenu__title {
+      &:hover,
+      &:focus {
+        background: #131e6b;
       }
-      span{
+      span {
         color: white;
       }
     }
-    span{
+    span {
       font-size: 18px;
     }
     .el-menu-item {
@@ -90,9 +97,14 @@ export default {
       font-size: 16px !important;
       color: white;
       opacity: 0.7;
-      &.is-active,&:hover, &:focus{
+      &.is-active,
+      &:hover,
+      &:focus {
         opacity: 1;
         background: #0835cd;
+      }
+      &.root-menu-item {
+        padding-left: 20px !important;
       }
     }
   }

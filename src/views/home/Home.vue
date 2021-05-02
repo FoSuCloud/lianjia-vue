@@ -16,6 +16,7 @@
 
 <script>
 import { RequestConstant } from "@/api/RequestConstant.js";
+
 export default {
   name: "Home",
   data() {
@@ -25,11 +26,11 @@ export default {
     };
   },
   created() {
-    this.$axios.get(RequestConstant.RENT).then(response => {
+    this.$axios.get(RequestConstant.CITY_RENT).then(response => {
       this.barData = response.data;
       this.initBar();
     });
-    this.$axios.get(RequestConstant.HOUSE_TYPE).then(response => {
+    this.$axios.get(RequestConstant.CITY_HOUSE_TYPE).then(response => {
       this.typeData = response.data;
       this.initType();
     });
@@ -110,7 +111,7 @@ export default {
     width: 720px;
     height: 650px;
     margin: 20px;
-    
+
     background: white;
     &:not(:last-child) {
       margin-right: 20px;

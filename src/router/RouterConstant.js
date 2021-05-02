@@ -2,10 +2,13 @@ const RouterConstant = {
   HOME: "/home",
   HOME_LIST: "/home/list",
   HOME_DATA: "/home/data",
+  HOME_LIST_TRUE: "/home/list_true",
+  HOME_DATA_TRUE: "/home/data_true",
 
-  CONFIG: '/config',
-  USER: '/config/user',
-  ABOUT: '/config/about',
+  CONFIG_USER: "/config/user",
+  USER: "/config/user_true",
+  CONFIG_ABOUT: "/config/about",
+  ABOUT: "/config/about_true",
 
   VISUALIZE: "/visualize",
   VISUALIZE_GZ: "/visualize/gz",
@@ -13,10 +16,10 @@ const RouterConstant = {
   VISUALIZE_BJ: "/visualize/bj",
   VISUALIZE_SH: "/visualize/sh",
 
-  BRAIN: "brain",
+  BRAIN: "/brain",
   BRAIN_CALCULATE: "/brain/calculate",
 
-  LOGIN: '/login'
+  LOGIN: "/login"
 };
 
 export { RouterConstant };

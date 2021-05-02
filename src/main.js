@@ -6,7 +6,6 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "@/assets/scss/index.scss";
 import '@/assets/iconfont/iconfont.scss'
-import axios from "@/api/axios.js";
 import md5 from 'js-md5';
 // 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
 import * as echarts from "echarts/core";
@@ -26,6 +25,7 @@ import { CanvasRenderer } from "echarts/renderers";
 import "echarts-wordcloud";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import * as tf from "@tensorflow/tfjs";
+import service from "@/api/axios.js";
 Vue.prototype.$tfvis = tfvis;
 Vue.prototype.$tf = tf;
 
@@ -44,7 +44,7 @@ echarts.use([
 //vue全局注入
 Vue.prototype.$md5 = md5;
 Vue.prototype.$echarts = echarts;
-Vue.prototype.$axios = axios();
+Vue.prototype.$axios = service;
 // Vue.use具有install方法
 Vue.use(ElementUI, { size: "small", zIndex: 3000 });
 Vue.config.productionTip = false;
