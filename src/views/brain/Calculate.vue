@@ -9,7 +9,7 @@
     <div class="calculate-buttons">
       <el-input v-model="inputNum" class="calculate-input" />
       <el-button @click="clear">重置</el-button>
-      <el-button type="primary" @click="getPrice(inputNum)">提交</el-button>
+      <el-button type="primary" @click="predict(inputNum)">提交</el-button>
     </div>
   </div>
 </template>
@@ -22,91 +22,6 @@ export default {
   data() {
     return {
       inputNum: 0,
-      boxList: [
-        {
-          title: "城市",
-          key: "city",
-          dropdown: {
-            title: "选择城市",
-            list: [
-              {
-                label: "深圳",
-                key: "sz"
-              },
-              {
-                label: "广州",
-                key: "gz"
-              },
-              {
-                label: "上海",
-                key: "sh"
-              },
-              {
-                label: "北京",
-                key: "bj"
-              }
-            ]
-          }
-        },
-        {
-          title: "面积",
-          key: "area",
-          dropdown: {
-            title: "选择面积",
-            list: [
-              {
-                label: "0-10m2",
-                key: "10"
-              },
-              {
-                label: "10-20m2",
-                key: "20"
-              },
-              {
-                label: "20-30m2",
-                key: "30"
-              },
-              {
-                label: "30-40m2",
-                key: "40"
-              },
-              {
-                label: "40-50m2",
-                key: "50"
-              }
-            ]
-          }
-        },
-        {
-          title: "区域",
-          key: "zone",
-          dropdown: {
-            title: "选择区域",
-            list: []
-          }
-        },
-        {
-          title: "模型",
-          key: "model",
-          dropdown: {
-            title: "选择模型",
-            list: [
-              {
-                label: "决策树",
-                key: "1"
-              },
-              {
-                label: "最近邻",
-                key: "2"
-              },
-              {
-                label: "逻辑回归",
-                key: "3"
-              }
-            ]
-          }
-        }
-      ],
       minPrice: null,
       params: {
         city: "",
@@ -125,7 +40,15 @@ export default {
     this.run();
   },
   methods: {
-    getPrice(outNum) {
+    /**
+     * 预测
+     * @param {number} outNum 输入值
+     * */
+    predict(outNum) {
+      if (outNum == 0) {
+        this.minPrice = 0;
+        return;
+      }
       // (x-最小值)/(最大值-最小值)
       this.inputMin.then(min => {
         this.inputMax.then(max => {
@@ -134,7 +57,7 @@ export default {
           content.array().then(num => {
             this.labelMax.then(labelMax => {
               this.labelMin.then(labelMin => {
-                this.minPrice = num * (labelMax - labelMin) + labelMin
+                this.minPrice = num * (labelMax - labelMin) + labelMin;
               });
             });
           });
@@ -151,36 +74,35 @@ export default {
         area: null,
         model: null
       };
-      this.boxList[0].dropdown.title = "选择城市";
-      this.boxList[1].dropdown.title = "选择面积";
-      this.boxList[2].dropdown.title = "选择区域";
-      this.boxList[3].dropdown.title = "选择模型";
       this.minPrice = "";
     },
-    /*
+    /**
      * 创建模型
      * */
     createModel() {
       const model = this.$tf.sequential();
+      // 输入层
       model.add(
         this.$tf.layers.dense({ inputShape: [1], units: 50, useBias: true })
       );
+      // 卷积层
       model.add(this.$tf.layers.dense({ units: 10, activation: "sigmoid" }));
+      // 输出层
       model.add(this.$tf.layers.dense({ units: 1, useBias: true }));
       return model;
     },
-    /*
+    /**
      * 获取模型数据
      * */
     async getModelData() {
-      let model = {
+      let params = {
         page: 1,
         size: 50
       };
       let cleaned = [];
       await this.$axios
         .get(RequestConstant.CITY_LIST, {
-          params: model
+          params: params
         })
         .then(response => {
           const carsData = response.data.list;
@@ -204,7 +126,6 @@ export default {
         const inputTensor = this.$tf.tensor2d(inputs, [inputs.length, 1]);
         const labelTensor = this.$tf.tensor2d(labels, [labels.length, 1]);
 
-        //Step 3. Normalize the data to the range 0 - 1 using min-max scaling
         this.inputMax = inputTensor.max();
         this.inputMin = inputTensor.min();
         this.labelMax = labelTensor.max();
@@ -255,10 +176,15 @@ export default {
      * 训练模型
      * */
     async run() {
+      // 1.获取模型数据
       const data = await this.getModelData();
+      // 2.创建模型
       this.model = this.createModel();
+      // 3.生成 张量 数据
       const tensorData = this.convertToTensor(data);
+      // 4. x y
       const { inputs, labels } = tensorData;
+      // 5.训练模型
       await this.trainModel(this.model, inputs, labels);
     }
   }
@@ -291,7 +217,7 @@ export default {
       font-weight: 500;
     }
   }
-  .calculate-input{
+  .calculate-input {
     width: 200px;
     display: block;
     margin: 20px auto;
