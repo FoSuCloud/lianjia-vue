@@ -259,7 +259,7 @@ export default {
             type: "value",
             name: "租房数量(套)",
             min: 0,
-            max: 250,
+            max: 300,
             interval: 50,
             axisLabel: {
               formatter: "{value}"

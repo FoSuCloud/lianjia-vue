@@ -8,7 +8,7 @@
       <div id="home-bar"></div>
     </div>
     <div class="home-map">
-      <p>各城市租房类型分布</p>
+      <p>各城市租房方式统计</p>
       <div id="home-type"></div>
     </div>
   </div>
@@ -108,9 +108,9 @@ export default {
   background: rgba(220, 220, 220, 0.3);
   .home-map {
     display: inline-block;
-    width: 720px;
-    height: 650px;
-    margin: 20px;
+    width: 480px;
+    height: 450px;
+    margin: 10px;
 
     background: white;
     &:not(:last-child) {
@@ -120,7 +120,7 @@ export default {
     #home-type {
       display: inline-block;
       width: 100%;
-      height: 530px;
+      height: 350px;
       padding: 0;
       margin: 0;
     }
