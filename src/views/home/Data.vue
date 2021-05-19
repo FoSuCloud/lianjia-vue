@@ -40,7 +40,11 @@
               >
                 <div
                   class="el-dropdown__data"
-                  :class="filterZone && item.name.indexOf(filterZone) > -1 ? 'is-active' : ''"
+                  :class="
+                    filterZone && item.name.indexOf(filterZone) > -1
+                      ? 'is-active'
+                      : ''
+                  "
                 >
                   {{ item.name }}
                 </div>

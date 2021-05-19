@@ -16,7 +16,7 @@ export default new Vuex.Store({
     handleStatus(state, status) {
       state.status = status;
     },
-    handleShowLogin(state,status){
+    handleShowLogin(state, status) {
       state.showLogin = status;
     }
   },

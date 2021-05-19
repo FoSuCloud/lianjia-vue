@@ -194,7 +194,6 @@ export default {
     },
     // 监听 页码值 改变的事件
     handleCurrentChange(newPage) {
-      //console.log(newPage);
       this.queryInfo.page = newPage;
       this.getUserList();
     },
@@ -251,7 +250,7 @@ export default {
     font-size: 20px;
     margin: 15px 0;
     height: calc(100% - 120px);
-    .el-table__body-wrapper{
+    .el-table__body-wrapper {
       height: calc(100% - 65px);
       overflow: auto;
     }

@@ -139,7 +139,7 @@ export default {
           text: ["High", "Low"],
           realtime: false,
           calculable: true,
-          bottom:'100',
+          bottom: "100",
           inRange: {
             color: [
               "#d1d4da",
@@ -193,7 +193,7 @@ export default {
           text: ["High", "Low"],
           realtime: false,
           calculable: true,
-          bottom:'100',
+          bottom: "100",
           inRange: {
             color: [
               "#d1d4da",
@@ -434,17 +434,17 @@ export default {
       }
 
       #house-zone,
-      #heat-map{
+      #heat-map {
         display: inline-block;
         width: 700px;
         height: 800px;
       }
-      #num-price{
+      #num-price {
         display: inline-block;
         height: 400px;
         width: 820px;
       }
-      #style-price{
+      #style-price {
         display: inline-block;
         height: 400px;
         width: 600px;

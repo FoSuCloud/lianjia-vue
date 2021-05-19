@@ -113,7 +113,7 @@ export default {
             } else {
               this.existed = true;
             }
-          })
+          });
       } else {
         alert("填写不能为空！");
       }

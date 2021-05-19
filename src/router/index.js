@@ -95,12 +95,12 @@ const dynamicRoutes = [
     component: MainLayout,
     permission: true,
     hiddenSub: true,
+    Admin: true,
     redirect: RouterConstant.USER,
     children: [
       {
         path: RouterConstant.USER,
         name: "用户",
-        Admin: true,
         component: () => import("@/views/config/User.vue"),
         parentPath: RouterConstant.CONFIG_USER
       }

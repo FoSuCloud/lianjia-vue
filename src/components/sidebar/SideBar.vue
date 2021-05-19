@@ -17,16 +17,14 @@
             <span>{{ item.name }}</span>
           </template>
           <div v-for="sub in item.children" :key="sub.path">
-            <el-menu-item
-              v-if="!sub.hiddenSidebar && (!sub.Admin || viewUser)"
-              :index="sub.path"
-              >{{ sub.name }}</el-menu-item
-            >
+            <el-menu-item v-if="!sub.hiddenSub" :index="sub.path">{{
+              sub.name
+            }}</el-menu-item>
           </div>
         </el-submenu>
         <el-menu-item
           class="root-menu-item"
-          v-else
+          v-else-if="!item.Admin || viewUser"
           :key="item.path"
           :index="item.path"
         >

@@ -5,8 +5,8 @@ import store from "./store";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "@/assets/scss/index.scss";
-import '@/assets/iconfont/iconfont.scss'
-import md5 from 'js-md5';
+import "@/assets/iconfont/iconfont.scss";
+import md5 from "js-md5";
 // 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
 import * as echarts from "echarts/core";
 // 引入柱状图图表，图表后缀都为 Chart
