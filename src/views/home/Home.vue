@@ -108,8 +108,8 @@ export default {
   background: rgba(220, 220, 220, 0.3);
   .home-map {
     display: inline-block;
-    width: 720px;
-    height: 650px;
+    width: 520px;
+    height: 450px;
     margin: 20px;
 
     background: white;
@@ -120,7 +120,7 @@ export default {
     #home-type {
       display: inline-block;
       width: 100%;
-      height: 530px;
+      height: 330px;
       padding: 0;
       margin: 0;
     }

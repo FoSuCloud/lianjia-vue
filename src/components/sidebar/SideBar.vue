@@ -18,7 +18,7 @@
           </template>
           <div v-for="sub in item.children" :key="sub.path">
             <el-menu-item
-              v-if="!sub.hiddenSidebar && (!sub.Admin || viewUser)"
+              v-if="!sub.hiddenSub"
               :index="sub.path"
               >{{ sub.name }}</el-menu-item
             >
@@ -26,7 +26,7 @@
         </el-submenu>
         <el-menu-item
           class="root-menu-item"
-          v-else
+          v-else-if="!item.Admin || viewUser"
           :key="item.path"
           :index="item.path"
         >
@@ -49,6 +49,7 @@ export default {
   },
   created() {
     this.routes = this.$router.options.routes.filter(item => item.permission);
+    console.log(this.$store.state.role)
     if (this.$store.state.role === 2) {
       this.viewUser = true;
     }
